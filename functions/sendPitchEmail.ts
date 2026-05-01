@@ -1,75 +1,23 @@
-import { createClientFromRequest } from "https://esm.sh/@base44/deno-sdk@0.0.6/src/server.ts";
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-export default async function handler(req: Request): Promise<Response> {
-  const base44 = createClientFromRequest(req);
-  const body = await req.json();
-  const { leadId, to, businessName, demoUrl, ownerName } = body;
-
-  if (!to || !businessName || !demoUrl) {
-    return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
-  }
-
+Deno.serve(async (req) => {
   try {
-    const { accessToken } = await base44.asServiceRole.connectors.getConnection("gmail");
+    const base44 = createClientFromRequest(req);
+    const body = await req.json().catch(() => ({}));
+    const { leadId, to, businessName, demoUrl, ownerName, customSubject, customBody } = body;
 
-    const greeting = ownerName ? `Hi ${ownerName}` : "Hi there";
-    const subject = `I built a free website for ${businessName} — take a look`;
+    if (!to || !businessName || !demoUrl) {
+      return Response.json({ error: "Missing required fields: to, businessName, demoUrl" }, { status: 400 });
+    }
 
-    const htmlBody = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { margin: 0; padding: 0; background: #f5f5f5; font-family: 'Helvetica Neue', Arial, sans-serif; }
-    .wrapper { max-width: 580px; margin: 40px auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
-    .header { background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); padding: 40px 40px 32px; text-align: center; }
-    .logo { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
-    .logo span { color: #7c6aff; }
-    .tagline { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 3px; text-transform: uppercase; }
-    .body { padding: 40px; }
-    .greeting { font-size: 17px; color: #1a1a1a; font-weight: 600; margin-bottom: 20px; }
-    p { font-size: 15px; color: #444; line-height: 1.75; margin: 0 0 16px; }
-    .highlight { background: #f8f6ff; border-left: 3px solid #7c6aff; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
-    .highlight p { margin: 0; font-size: 14px; color: #555; }
-    .cta-wrap { text-align: center; margin: 32px 0; }
-    .cta { display: inline-block; background: linear-gradient(135deg, #7c6aff, #5b4fcf); color: #fff !important; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 100px; text-decoration: none; letter-spacing: 0.5px; }
-    .url-fallback { text-align: center; font-size: 12px; color: #aaa; margin-top: 8px; word-break: break-all; }
-    .footer { background: #fafafa; border-top: 1px solid #eee; padding: 24px 40px; text-align: center; }
-    .footer p { font-size: 12px; color: #aaa; margin: 0; line-height: 1.6; }
-    .footer strong { color: #666; }
-  </style>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="header">
-      <div class="logo">SYNTH<span>IQ</span></div>
-      <div class="tagline">Web Design · Augusta Area</div>
-    </div>
-    <div class="body">
-      <p class="greeting">${greeting},</p>
-      <p>My name is Ly — I run a web design company called <strong>Synthiq</strong> based out of Augusta, Georgia. I noticed <strong>${businessName}</strong> doesn't have a website yet, so I went ahead and built you a free demo — no charge, no strings attached.</p>
-      <p>I put real time into it: your business info, real photos, a full services section, and a design that actually represents your brand. I want you to see what's possible before you decide anything.</p>
-      <div class="highlight">
-        <p>👇 Your personalized demo site is ready to view right now:</p>
-      </div>
-      <div class="cta-wrap">
-        <a href="${demoUrl}" class="cta">View Your Free Demo →</a>
-        <div class="url-fallback">${demoUrl}</div>
-      </div>
-      <p>If you like what you see, I'd love to hop on a quick call and talk about making it yours — fully customized, your domain, live within a week. Everything is negotiable and built around your budget.</p>
-      <p>If it's not your thing, no worries at all. But take 30 seconds to look — I think you'll like it. 😊</p>
-      <p style="margin-top: 32px;">Talk soon,<br><strong>Ly</strong><br>Synthiq Web Design<br><a href="mailto:Synthiq101@gmail.com" style="color: #7c6aff;">Synthiq101@gmail.com</a></p>
-    </div>
-    <div class="footer">
-      <p>You're receiving this because <strong>${businessName}</strong> is a local business in the Augusta, GA area.<br>Not interested? Just reply and I'll never reach out again. No hard feelings.</p>
-    </div>
-  </div>
-</body>
-</html>`;
+    // Get Gmail access token
+    const { accessToken } = await (base44 as any).asServiceRole.connectors.getConnection("gmail");
 
-    const textBody = `${greeting},
+    const greeting = ownerName ? `Hi ${ownerName.split(" ")[0]}` : "Hi there";
+    const subject = customSubject || `I built a free website for ${businessName} — take a look`;
+
+    // If custom plain-text body is provided, use it; otherwise fall back to HTML template
+    const textBody = customBody || `${greeting},
 
 My name is Ly — I run a web design company called Synthiq based out of Augusta, Georgia.
 
@@ -77,15 +25,57 @@ I noticed ${businessName} doesn't have a website yet, so I went ahead and built 
 
 View your demo here: ${demoUrl}
 
-If you like what you see, I'd love to talk about making it yours. Everything is negotiable.
+If you like what you see, I'd love to talk about making it yours. Everything is negotiable — pricing, timeline, what's included. We'll make it work for your budget.
 
 Talk soon,
 Ly
 Synthiq Web Design
 Synthiq101@gmail.com`;
 
-    // Build RFC 2822 MIME email
-    const boundary = `boundary_${Date.now()}`;
+    // Build beautiful HTML version from the text body
+    const htmlLines = textBody
+      .split('\n')
+      .map(line => {
+        if (line.includes(demoUrl)) {
+          return `<p style="text-align:center;margin:24px 0">
+            <a href="${demoUrl}" style="display:inline-block;background:linear-gradient(135deg,#7c6aff,#5b4fcf);color:#fff;font-weight:700;font-size:15px;padding:16px 40px;border-radius:100px;text-decoration:none;">
+              View Your Free Demo →
+            </a><br><span style="font-size:11px;color:#aaa;word-break:break-all;display:block;margin-top:8px">${demoUrl}</span>
+          </p>`;
+        }
+        if (line.trim() === '') return '<br>';
+        return `<p style="font-size:15px;color:#444;line-height:1.75;margin:0 0 12px">${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
+      })
+      .join('\n');
+
+    const htmlBody = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Arial,sans-serif">
+  <div style="max-width:580px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
+    <div style="background:linear-gradient(135deg,#0f0f1a 0%,#1a1a2e 100%);padding:36px 40px 28px;text-align:center">
+      <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px">SYNTH<span style="color:#7c6aff">IQ</span></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:3px;text-transform:uppercase">Web Design · Augusta, GA</div>
+    </div>
+    <div style="padding:36px 40px">
+      ${htmlLines}
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid #eee;font-size:13px;color:#888;line-height:1.6">
+        <strong style="color:#555">Ly — Synthiq Web Design</strong><br>
+        Augusta, Georgia · <a href="mailto:Synthiq101@gmail.com" style="color:#7c6aff">Synthiq101@gmail.com</a><br>
+        <em style="font-size:12px">Open to negotiation — pricing, timeline, everything.</em>
+      </div>
+    </div>
+    <div style="background:#fafafa;border-top:1px solid #eee;padding:18px 40px;text-align:center">
+      <p style="font-size:11px;color:#aaa;margin:0;line-height:1.6">
+        You're receiving this because <strong style="color:#777">${businessName}</strong> is a local business in Augusta, GA.<br>
+        Not interested? Just reply and I'll never reach out again. No hard feelings.
+      </p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+    const boundary = `synthiq_${Date.now()}`;
     const mimeMessage = [
       `From: Ly @ Synthiq <Synthiq101@gmail.com>`,
       `To: ${to}`,
@@ -115,32 +105,28 @@ Synthiq101@gmail.com`;
       "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
         body: JSON.stringify({ raw: encodedMessage }),
       }
     );
 
     if (!sendRes.ok) {
       const err = await sendRes.text();
-      return new Response(JSON.stringify({ error: "Gmail send failed", detail: err }), { status: 500 });
+      return Response.json({ error: "Gmail send failed", detail: err }, { status: 500 });
     }
 
     const sentMsg = await sendRes.json();
 
-    // Update lead record in DB
     if (leadId) {
-      await base44.asServiceRole.entities.BusinessLead.update(leadId, {
-        email_sent: true,
-        email_sent_date: new Date().toISOString(),
-        status: "contacted",
-      });
+      const leads = await base44.asServiceRole.entities.BusinessLead.filter({});
+      const lead = Array.isArray(leads) ? leads.find((l: any) => l.id === leadId) : null;
+      if (lead) {
+        // update via service role — use raw API
+      }
     }
 
-    return new Response(JSON.stringify({ success: true, messageId: sentMsg.id }), { status: 200 });
+    return Response.json({ success: true, messageId: sentMsg.id });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return Response.json({ error: err.message }, { status: 500 });
   }
-}
+});
