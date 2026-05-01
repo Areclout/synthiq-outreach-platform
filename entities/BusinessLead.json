@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "business_name": {
+      "type": "string"
+    },
+    "owner_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "google_rating": {
+      "type": "number"
+    },
+    "review_count": {
+      "type": "number"
+    },
+    "has_website": {
+      "type": "boolean"
+    },
+    "website_url": {
+      "type": "string"
+    },
+    "demo_site_slug": {
+      "type": "string"
+    },
+    "demo_site_url": {
+      "type": "string"
+    },
+    "google_reviews": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "google_reviews_full": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "theme_palette": {
+      "type": "string"
+    },
+    "theme_hero": {
+      "type": "string"
+    },
+    "theme_emoji": {
+      "type": "string"
+    },
+    "email_sent": {
+      "type": "boolean"
+    },
+    "email_sent_date": {
+      "type": "string"
+    },
+    "email_replied": {
+      "type": "boolean"
+    },
+    "email_reply_text": {
+      "type": "string"
+    },
+    "email_reply_date": {
+      "type": "string"
+    },
+    "approved": {
+      "type": "boolean"
+    },
+    "approved_date": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "found",
+        "site_built",
+        "approved",
+        "contacted",
+        "replied",
+        "converted",
+        "skipped"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "lead_layer": {
+      "type": "number"
+    },
+    "lead_reason": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "name": "BusinessLead"
+}
