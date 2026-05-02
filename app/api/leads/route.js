@@ -1,5 +1,5 @@
 // app/api/leads/route.js
-import { getAllLeads, createLead, autoApproveBatch } from '@/lib/supabase'
+import { getAllLeads, createLead, autoApproveBatch } from '../../../lib/supabase'
 import { NextResponse } from 'next/server'
 
 export async function GET(request) {

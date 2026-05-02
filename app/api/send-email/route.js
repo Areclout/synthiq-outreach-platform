@@ -1,6 +1,6 @@
 // app/api/send-email/route.js
-import { sendPitchEmail } from '@/lib/email'
-import { markEmailed, logEmailSend } from '@/lib/supabase'
+import { sendPitchEmail } from '../../../lib/email'
+import { markEmailed, logEmailSend } from '../../../lib/supabase'
 import { NextResponse } from 'next/server'
 
 export async function POST(request) {

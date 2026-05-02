@@ -1,5 +1,5 @@
 // app/api/stats/route.js
-import { getPipelineStats, getLeadsToPitch, getLeadsAwaitingFollowup } from '@/lib/supabase'
+import { getPipelineStats, getLeadsToPitch, getLeadsAwaitingFollowup } from '../../../lib/supabase'
 import { NextResponse } from 'next/server'
 
 export async function GET() {

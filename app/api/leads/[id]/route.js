@@ -1,7 +1,7 @@
 // ─── app/api/leads/[id]/route.js ─────────────────────────────────────────────
 // Save as: app/api/leads/[id]/route.js
 
-import { getLeadById, updateLead, deleteLead, markEmailed, markReplied, markConverted, approveLead } from '@/lib/supabase'
+import { getLeadById, updateLead, deleteLead, markEmailed, markReplied, markConverted, approveLead } from '../../../../lib/supabase'
 import { NextResponse } from 'next/server'
 
 export async function GET(_, { params }) {
@@ -36,7 +36,7 @@ export async function DELETE(_, { params }) {
 // ─── app/api/stats/route.js ───────────────────────────────────────────────────
 // Save as: app/api/stats/route.js
 
-// import { getPipelineStats, getLeadsToPitch, getLeadsAwaitingFollowup } from '@/lib/supabase'
+// import { getPipelineStats, getLeadsToPitch, getLeadsAwaitingFollowup } from '../../../../lib/supabase'
 // import { NextResponse } from 'next/server'
 //
 // export async function GET() {
@@ -52,8 +52,8 @@ export async function DELETE(_, { params }) {
 // ─── app/api/send-email/route.js ─────────────────────────────────────────────
 // Save as: app/api/send-email/route.js
 
-// import { sendPitchEmail } from '@/lib/email'
-// import { markEmailed, logEmailSend } from '@/lib/supabase'
+// import { sendPitchEmail } from '../../../../lib/email'
+// import { markEmailed, logEmailSend } from '../../../../lib/supabase'
 // import { NextResponse } from 'next/server'
 //
 // export async function POST(request) {
