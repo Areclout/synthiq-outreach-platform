@@ -7,150 +7,179 @@ const db = createClient(
   { auth: { autoRefreshToken: false, persistSession: false } }
 )
 
-const THEMES = {
+// ── CATEGORY DNA ─────────────────────────────────────────────────────────────
+const DNA = {
   'Nail Salon': {
-    primary: '#1a0a2e', accent: '#d4af37', text: '#fff',
-    heroStyle: 'luxury', font: 'Georgia, serif',
-    tagFont: '"Playfair Display", Georgia, serif',
-    headline: 'Where beauty becomes art.',
-    subtext: 'Premium nail care crafted for you.',
-    ctaLabel: 'Book Now', ctaColor: '#d4af37', ctaText: '#000',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,10,46,0.92) 0%, rgba(60,20,80,0.85) 100%)',
-    accentGlow: '#d4af37',
+    bg: '#0d0810', accent: '#c9a96e', accent2: '#e8c99a', light: '#f7f0e8',
+    heroImg: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1600&q=80',
+    heroImg2: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1600&q=80',
+    font: '"Cormorant Garamond", "Playfair Display", Georgia, serif',
+    displayFont: '"Cormorant Garamond", Georgia, serif',
+    headline: 'Where beauty\nbecomes art.',
+    sub: 'Precision nail care for the woman who demands the best.',
+    cta: 'Book Your Appointment',
+    badge: 'PREMIUM NAIL STUDIO',
+    overlay: 'linear-gradient(110deg, rgba(13,8,16,0.97) 0%, rgba(13,8,16,0.85) 45%, rgba(13,8,16,0.4) 100%)',
+    accentStyle: 'italic',
   },
   'Barbershop': {
-    primary: '#0d1b2a', accent: '#c9a84c', text: '#fff',
-    heroStyle: 'bold', font: '"Oswald", system-ui, sans-serif',
-    tagFont: '"Bebas Neue", "Oswald", sans-serif',
-    headline: 'Sharp cuts. Real respect.',
-    subtext: 'The best barbers in Augusta.',
-    ctaLabel: 'Book a Cut', ctaColor: '#c9a84c', ctaText: '#000',
-    bgOverlay: 'linear-gradient(160deg, rgba(13,27,42,0.95) 0%, rgba(30,50,70,0.88) 100%)',
-    accentGlow: '#c9a84c',
+    bg: '#080c10', accent: '#c9972a', accent2: '#e8b84b', light: '#f5ede0',
+    heroImg: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600&q=80',
+    font: '"Bebas Neue", "Oswald", Impact, sans-serif',
+    displayFont: '"Bebas Neue", "Oswald", sans-serif',
+    headline: 'SHARP CUTS.\nREAL RESPECT.',
+    sub: 'Augusta\'s finest barbershop experience.',
+    cta: 'Book a Cut',
+    badge: 'PREMIUM BARBERSHOP',
+    overlay: 'linear-gradient(110deg, rgba(8,12,16,0.98) 0%, rgba(8,12,16,0.88) 50%, rgba(8,12,16,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Restaurant': {
-    primary: '#1a0800', accent: '#f5a623', text: '#fff',
-    heroStyle: 'warm', font: '"Playfair Display", Georgia, serif',
-    tagFont: '"Playfair Display", Georgia, serif',
-    headline: 'Authentic flavors, every time.',
-    subtext: 'Made fresh. Served with heart.',
-    ctaLabel: 'Call to Reserve', ctaColor: '#f5a623', ctaText: '#000',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,8,0,0.88) 0%, rgba(80,25,0,0.82) 100%)',
-    accentGlow: '#f5a623',
+    bg: '#0a0600', accent: '#e8a020', accent2: '#f5c040', light: '#fff8f0',
+    heroImg: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80',
+    font: '"Playfair Display", Georgia, serif',
+    displayFont: '"Playfair Display", Georgia, serif',
+    headline: 'Authentic flavors,\nevery visit.',
+    sub: 'Made fresh. Served with heart. Remembered forever.',
+    cta: 'Reserve a Table',
+    badge: 'LOCAL FAVORITE',
+    overlay: 'linear-gradient(110deg, rgba(10,6,0,0.97) 0%, rgba(10,6,0,0.85) 50%, rgba(10,6,0,0.35) 100%)',
+    accentStyle: 'italic',
   },
   'HVAC': {
-    primary: '#0a1628', accent: '#3b9eff', text: '#fff',
-    heroStyle: 'professional', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Comfort you can count on.',
-    subtext: 'Fast, reliable HVAC service.',
-    ctaLabel: 'Get a Quote', ctaColor: '#3b9eff', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(20,45,80,0.9) 100%)',
-    accentGlow: '#3b9eff',
+    bg: '#060c18', accent: '#2d8bff', accent2: '#60aaff', light: '#eef4ff',
+    heroImg: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1600&q=80',
+    font: '"Inter", system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Comfort you\ncan count on.',
+    sub: 'Fast, reliable HVAC service — licensed, insured, and local.',
+    cta: 'Get a Free Quote',
+    badge: 'CERTIFIED HVAC PROS',
+    overlay: 'linear-gradient(110deg, rgba(6,12,24,0.97) 0%, rgba(6,12,24,0.88) 50%, rgba(6,12,24,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Pest Control': {
-    primary: '#0f1f0f', accent: '#5cb85c', text: '#fff',
-    heroStyle: 'bold', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Your home, protected.',
-    subtext: 'Fast, safe pest elimination.',
-    ctaLabel: 'Get Free Inspection', ctaColor: '#5cb85c', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(15,31,15,0.95) 0%, rgba(30,60,30,0.9) 100%)',
-    accentGlow: '#5cb85c',
+    bg: '#050f05', accent: '#4caf50', accent2: '#81c784', light: '#f1f8f1',
+    heroImg: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Your home,\nprotected.',
+    sub: 'Fast, safe, and guaranteed pest elimination.',
+    cta: 'Get Free Inspection',
+    badge: 'LICENSED & CERTIFIED',
+    overlay: 'linear-gradient(110deg, rgba(5,15,5,0.97) 0%, rgba(5,15,5,0.88) 50%, rgba(5,15,5,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Pressure Washing': {
-    primary: '#001830', accent: '#00b4d8', text: '#fff',
-    heroStyle: 'clean', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Like new. Every time.',
-    subtext: 'Professional pressure washing services.',
-    ctaLabel: 'Get a Quote', ctaColor: '#00b4d8', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(0,24,48,0.95) 0%, rgba(0,60,90,0.9) 100%)',
-    accentGlow: '#00b4d8',
+    bg: '#020d1a', accent: '#00b4d8', accent2: '#48cae4', light: '#e8f7fb',
+    heroImg: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Like new.\nEvery time.',
+    sub: 'Professional pressure washing that transforms your property.',
+    cta: 'Get a Quote',
+    badge: 'FULLY INSURED',
+    overlay: 'linear-gradient(110deg, rgba(2,13,26,0.97) 0%, rgba(2,13,26,0.88) 50%, rgba(2,13,26,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Auto Repair': {
-    primary: '#111', accent: '#ff6b00', text: '#fff',
-    heroStyle: 'bold', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Your car is in good hands.',
-    subtext: 'Honest repairs. Fair prices.',
-    ctaLabel: 'Call Now', ctaColor: '#ff6b00', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(17,17,17,0.95) 0%, rgba(40,30,20,0.92) 100%)',
-    accentGlow: '#ff6b00',
+    bg: '#0a0a0a', accent: '#ff6000', accent2: '#ff8533', light: '#fff3ee',
+    heroImg: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Your car is in\ngood hands.',
+    sub: 'Honest diagnostics. Fair prices. Done right the first time.',
+    cta: 'Schedule Service',
+    badge: 'ASE CERTIFIED',
+    overlay: 'linear-gradient(110deg, rgba(10,10,10,0.97) 0%, rgba(10,10,10,0.88) 50%, rgba(10,10,10,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Contractor': {
-    primary: '#1a1008', accent: '#ff8c00', text: '#fff',
-    heroStyle: 'bold', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Built right. Built to last.',
-    subtext: 'Licensed contractors you can trust.',
-    ctaLabel: 'Get a Quote', ctaColor: '#ff8c00', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,16,8,0.95) 0%, rgba(60,35,10,0.9) 100%)',
-    accentGlow: '#ff8c00',
+    bg: '#0a0806', accent: '#f0900a', accent2: '#f5b042', light: '#fdf5e8',
+    heroImg: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Built right.\nBuilt to last.',
+    sub: 'Licensed contractors delivering quality craftsmanship.',
+    cta: 'Get a Free Quote',
+    badge: 'LICENSED & BONDED',
+    overlay: 'linear-gradient(110deg, rgba(10,8,6,0.97) 0%, rgba(10,8,6,0.88) 50%, rgba(10,8,6,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Landscaping': {
-    primary: '#0a1f0a', accent: '#7bc67e', text: '#fff',
-    heroStyle: 'natural', font: '"Georgia", serif',
-    tagFont: 'Georgia, serif',
-    headline: 'Beautiful spaces start here.',
-    subtext: 'Expert landscaping for your home.',
-    ctaLabel: 'Get a Quote', ctaColor: '#7bc67e', ctaText: '#000',
-    bgOverlay: 'linear-gradient(135deg, rgba(10,31,10,0.92) 0%, rgba(20,60,20,0.88) 100%)',
-    accentGlow: '#7bc67e',
+    bg: '#040c04', accent: '#5a9e3a', accent2: '#7bc95a', light: '#f0f8ee',
+    heroImg: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1600&q=80',
+    font: '"Playfair Display", Georgia, serif',
+    displayFont: '"Playfair Display", Georgia, serif',
+    headline: 'Beautiful spaces\nstart here.',
+    sub: 'Expert landscaping that transforms your outdoor living.',
+    cta: 'Get a Free Quote',
+    badge: 'TRUSTED LANDSCAPERS',
+    overlay: 'linear-gradient(110deg, rgba(4,12,4,0.96) 0%, rgba(4,12,4,0.85) 50%, rgba(4,12,4,0.2) 100%)',
+    accentStyle: 'italic',
   },
   'Cleaning Service': {
-    primary: '#001a2c', accent: '#00d4aa', text: '#fff',
-    heroStyle: 'clean', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Spotless. Every single time.',
-    subtext: 'Professional cleaning you can trust.',
-    ctaLabel: 'Book Cleaning', ctaColor: '#00d4aa', ctaText: '#000',
-    bgOverlay: 'linear-gradient(135deg, rgba(0,26,44,0.95) 0%, rgba(0,60,80,0.9) 100%)',
-    accentGlow: '#00d4aa',
+    bg: '#020e10', accent: '#00c4a0', accent2: '#00e8bc', light: '#e8fbf8',
+    heroImg: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Spotless.\nEvery time.',
+    sub: 'Professional cleaning services you can trust completely.',
+    cta: 'Book a Cleaning',
+    badge: 'FULLY INSURED',
+    overlay: 'linear-gradient(110deg, rgba(2,14,16,0.97) 0%, rgba(2,14,16,0.88) 50%, rgba(2,14,16,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Plumber': {
-    primary: '#0a1628', accent: '#4da6ff', text: '#fff',
-    heroStyle: 'professional', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Fixed fast. Done right.',
-    subtext: 'Licensed plumbers, available now.',
-    ctaLabel: 'Call Now', ctaColor: '#4da6ff', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(20,45,80,0.9) 100%)',
-    accentGlow: '#4da6ff',
+    bg: '#04091a', accent: '#3a8fff', accent2: '#6aaeff', light: '#eef4ff',
+    heroImg: 'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Fixed fast.\nDone right.',
+    sub: 'Licensed plumbers, available when you need us most.',
+    cta: 'Call Now',
+    badge: 'LICENSED PLUMBERS',
+    overlay: 'linear-gradient(110deg, rgba(4,9,26,0.97) 0%, rgba(4,9,26,0.88) 50%, rgba(4,9,26,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Electrician': {
-    primary: '#1a1400', accent: '#ffd700', text: '#fff',
-    heroStyle: 'bold', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Power you can rely on.',
-    subtext: 'Licensed electricians, fast response.',
-    ctaLabel: 'Call Now', ctaColor: '#ffd700', ctaText: '#000',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,20,0,0.95) 0%, rgba(60,45,0,0.9) 100%)',
-    accentGlow: '#ffd700',
+    bg: '#0f0c00', accent: '#f5c400', accent2: '#ffe040', light: '#fffde8',
+    heroImg: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Power you\ncan rely on.',
+    sub: 'Licensed electricians with fast response and honest pricing.',
+    cta: 'Call Now',
+    badge: 'LICENSED ELECTRICIAN',
+    overlay: 'linear-gradient(110deg, rgba(15,12,0,0.97) 0%, rgba(15,12,0,0.88) 50%, rgba(15,12,0,0.3) 100%)',
+    accentStyle: 'normal',
   },
   'Painter': {
-    primary: '#1a0a2e', accent: '#b57bee', text: '#fff',
-    heroStyle: 'luxury', font: 'Georgia, serif',
-    tagFont: 'Georgia, serif',
-    headline: 'Color that transforms.',
-    subtext: 'Expert painting, flawless results.',
-    ctaLabel: 'Get a Quote', ctaColor: '#b57bee', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,10,46,0.95) 0%, rgba(60,20,80,0.9) 100%)',
-    accentGlow: '#b57bee',
+    bg: '#0c0818', accent: '#a855f7', accent2: '#c084fc', light: '#f5f0ff',
+    heroImg: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=1600&q=80',
+    font: '"Playfair Display", Georgia, serif',
+    displayFont: '"Playfair Display", Georgia, serif',
+    headline: 'Color that\ntransforms.',
+    sub: 'Expert painting with flawless, long-lasting results.',
+    cta: 'Get a Free Quote',
+    badge: 'EXPERT PAINTERS',
+    overlay: 'linear-gradient(110deg, rgba(12,8,24,0.97) 0%, rgba(12,8,24,0.88) 50%, rgba(12,8,24,0.3) 100%)',
+    accentStyle: 'italic',
   },
   'Roofer': {
-    primary: '#1a1410', accent: '#ff6b35', text: '#fff',
-    heroStyle: 'bold', font: 'system-ui, sans-serif',
-    tagFont: 'system-ui, sans-serif',
-    headline: 'Your roof. Our reputation.',
-    subtext: 'Licensed roofers with proven results.',
-    ctaLabel: 'Get Free Estimate', ctaColor: '#ff6b35', ctaText: '#fff',
-    bgOverlay: 'linear-gradient(135deg, rgba(26,20,16,0.95) 0%, rgba(60,40,20,0.9) 100%)',
-    accentGlow: '#ff6b35',
+    bg: '#0c0806', accent: '#e85520', accent2: '#f07848', light: '#fef2ee',
+    heroImg: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=1600&q=80',
+    font: 'system-ui, sans-serif',
+    displayFont: 'system-ui, sans-serif',
+    headline: 'Your roof.\nOur reputation.',
+    sub: 'Licensed roofers with proven results and guaranteed work.',
+    cta: 'Get Free Estimate',
+    badge: 'LICENSED ROOFERS',
+    overlay: 'linear-gradient(110deg, rgba(12,8,6,0.97) 0%, rgba(12,8,6,0.88) 50%, rgba(12,8,6,0.3) 100%)',
+    accentStyle: 'normal',
   },
 }
-
-const DEFAULT_THEME = THEMES['Contractor']
+const DEFAULT = DNA['Contractor']
 
 export async function generateMetadata({ params }) {
   const { data } = await db.from('business_leads')
@@ -158,205 +187,251 @@ export async function generateMetadata({ params }) {
     .eq('slug', params.slug).single()
   if (!data) return { title: 'Demo Site — Synthiq' }
   return {
-    title: `${data.business_name} — ${data.city}, GA`,
-    description: `${data.business_name} is a top-rated ${data.category} in ${data.city}, GA with ${data.review_count} Google reviews averaging ${data.google_rating}★.`,
+    title: `${data.business_name} — ${data.category} in ${data.city}, GA`,
+    description: `${data.business_name} — top-rated ${data.category} in ${data.city}, GA. ${data.review_count} Google reviews, ${data.google_rating}★ average.`,
   }
 }
 
 export default async function DemoSite({ params }) {
-  const { data: lead } = await db.from('business_leads')
-    .select('*').eq('slug', params.slug).single()
+  const { data: lead } = await db.from('business_leads').select('*').eq('slug', params.slug).single()
   if (!lead) notFound()
 
-  const t = THEMES[lead.category] || DEFAULT_THEME
-  const photos = lead.photo_urls || []
-  const reviews = lead.google_reviews || []
+  const d = DNA[lead.category] || DEFAULT
+  const reviews = (lead.google_reviews || []).filter(r => {
+    const t = typeof r === 'string' ? r : r.text || ''
+    return t.length > 5
+  })
   const services = lead.services || []
   const rating = lead.google_rating || 4.8
   const reviewCount = lead.review_count || 0
-  const stars = Math.round(rating)
+  const heroLines = d.headline.split('\n')
+
+  const css = `
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:${d.font};background:${d.bg};color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    ::selection{background:${d.accent};color:#000}
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-thumb{background:${d.accent}66;border-radius:2px}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 6%;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+    .nav.scrolled{background:${d.bg}ee;backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
+    .nav-brand{display:flex;align-items:center;gap:12px}
+    .nav-monogram{width:38px;height:38px;border-radius:50%;background:${d.accent};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000;font-family:${d.displayFont};flex-shrink:0}
+    .nav-name{font-size:15px;font-weight:600;letter-spacing:0.3px;color:#fff;font-family:${d.font}}
+    .nav-links{display:flex;gap:36px}
+    .nav-links a{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;font-family:system-ui}
+    .nav-links a:hover{color:${d.accent}}
+    .nav-btn{background:${d.accent};color:#000;padding:11px 26px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all 0.25s;font-family:system-ui;white-space:nowrap}
+    .nav-btn:hover{background:${d.accent2};transform:translateY(-1px);box-shadow:0 6px 24px ${d.accent}55}
+
+    /* HERO */
+    .hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden}
+    .hero-img{position:absolute;inset:0;background-image:url(${d.heroImg});background-size:cover;background-position:center;transform:scale(1.05);transition:transform 8s ease}
+    .hero-overlay{position:absolute;inset:0;background:${d.overlay}}
+    .hero-content{position:relative;z-index:2;width:100%;padding:0 6%;max-width:1200px;margin:0 auto}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:14px;margin-bottom:28px}
+    .hero-line{width:50px;height:1px;background:${d.accent}}
+    .hero-badge{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${d.accent};font-family:system-ui;font-weight:600}
+    .hero-h1{font-size:clamp(52px,7.5vw,100px);font-weight:${d.font.includes('Bebas') ? '400' : '700'};line-height:0.95;letter-spacing:${d.font.includes('Bebas') ? '2px' : '-2px'};color:#fff;margin-bottom:6px;font-family:${d.displayFont}}
+    .hero-h1 .italic{font-style:${d.accentStyle};color:${d.accent}}
+    .hero-sub{font-size:clamp(14px,1.8vw,18px);color:rgba(255,255,255,0.6);line-height:1.7;max-width:480px;margin:24px 0 40px;font-family:system-ui;font-weight:300;letter-spacing:0.2px}
+    .hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+    .btn-hero{background:${d.accent};color:#000;padding:16px 38px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all 0.25s;font-family:system-ui;display:inline-block}
+    .btn-hero:hover{background:${d.accent2};transform:translateY(-2px);box-shadow:0 10px 40px ${d.accent}50}
+    .btn-ghost{color:rgba(255,255,255,0.7);padding:16px 38px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all 0.25s;font-family:system-ui;display:inline-block;border:1px solid rgba(255,255,255,0.2)}
+    .btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05)}
+    .hero-rating{display:inline-flex;align-items:center;gap:14px;padding:14px 24px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:rgba(255,255,255,0.04);backdrop-filter:blur(10px);margin-top:48px}
+    .hero-stars{color:${d.accent};font-size:16px;letter-spacing:3px}
+    .hero-rating-info{font-family:system-ui;font-size:13px;color:rgba(255,255,255,0.7)}
+    .hero-rating-info strong{color:#fff}
+    .hero-scroll{position:absolute;bottom:36px;left:6%;display:flex;align-items:center;gap:14px;opacity:0.4}
+    .hero-scroll span{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-family:system-ui}
+    .hero-scroll-line{width:60px;height:1px;background:#fff}
+
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)}
+    .stat{padding:44px 32px;text-align:center;border-right:1px solid rgba(255,255,255,0.06);position:relative}
+    .stat:last-child{border-right:none}
+    .stat::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:3px;background:${d.accent}}
+    .stat-n{font-size:clamp(32px,4vw,52px);font-weight:700;color:${d.accent};line-height:1;margin-bottom:8px;font-family:${d.displayFont}}
+    .stat-l{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35);font-family:system-ui}
+
+    /* SECTIONS */
+    .section{padding:100px 6%;max-width:1200px;margin:0 auto}
+    .section-full{padding:100px 6%}
+    .section-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    .section-line{width:40px;height:1px;background:${d.accent}}
+    .section-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${d.accent};font-family:system-ui;font-weight:600}
+    .section-title{font-size:clamp(30px,4vw,54px);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-0.5px;font-family:${d.displayFont}}
+    .section-sub{font-size:16px;color:rgba(255,255,255,0.45);line-height:1.8;max-width:540px;margin-top:16px;font-family:system-ui;font-weight:300}
+
+    /* SERVICES */
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;margin-top:56px;border:1px solid rgba(255,255,255,0.06)}
+    .service-item{padding:36px 32px;background:rgba(255,255,255,0.02);transition:background 0.3s;position:relative;overflow:hidden}
+    .service-item::after{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:${d.accent};transition:height 0.3s}
+    .service-item:hover{background:rgba(255,255,255,0.04)}
+    .service-item:hover::after{height:100%}
+    .service-num{font-size:11px;color:${d.accent};font-family:system-ui;letter-spacing:2px;margin-bottom:16px;opacity:0.7}
+    .service-name{font-size:17px;font-weight:500;color:#fff;line-height:1.3;font-family:${d.font}}
+
+    /* REVIEWS */
+    .reviews-bg{background:rgba(255,255,255,0.015);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)}
+    .reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:56px}
+    .review-card{padding:36px;border:1px solid rgba(255,255,255,0.07);border-radius:2px;position:relative;background:rgba(255,255,255,0.02);transition:border-color 0.3s}
+    .review-card:hover{border-color:${d.accent}44}
+    .review-quote{font-size:64px;line-height:0.6;color:${d.accent};opacity:0.25;margin-bottom:20px;font-family:Georgia,serif;font-weight:900}
+    .review-text{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.8;font-style:italic;margin-bottom:24px;font-family:${d.font}}
+    .review-footer{display:flex;align-items:center;gap:12px}
+    .review-avatar{width:36px;height:36px;border-radius:50%;background:${d.accent}22;border:1px solid ${d.accent}44;display:flex;align-items:center;justify-content:center;font-size:14px;color:${d.accent};font-weight:700;font-family:system-ui;flex-shrink:0}
+    .review-author{font-size:12px;font-weight:600;color:${d.accent};letter-spacing:1px;text-transform:uppercase;font-family:system-ui}
+    .review-source{font-size:10px;color:rgba(255,255,255,0.3);font-family:system-ui;letter-spacing:1px}
+    .review-stars{color:${d.accent};font-size:12px;letter-spacing:2px;margin-bottom:16px}
+
+    /* PRICING */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;border:1px solid rgba(255,255,255,0.06)}
+    .price-card{padding:48px 36px;background:rgba(255,255,255,0.02);position:relative;transition:background 0.3s}
+    .price-card:hover{background:rgba(255,255,255,0.04)}
+    .price-card.featured{background:${d.accent}12;border:1px solid ${d.accent}33}
+    .price-badge{position:absolute;top:-1px;left:36px;background:${d.accent};color:#000;font-size:9px;font-weight:700;letter-spacing:2.5px;padding:5px 14px;font-family:system-ui;text-transform:uppercase}
+    .price-tier{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.35);font-family:system-ui;margin-bottom:20px}
+    .price-amount{font-size:clamp(40px,5vw,60px);font-weight:700;color:#fff;line-height:1;font-family:${d.displayFont}}
+    .price-per{font-size:14px;font-weight:300;color:rgba(255,255,255,0.35);font-family:system-ui}
+    .price-deposit{font-size:11px;color:rgba(255,255,255,0.3);margin:8px 0 28px;font-family:system-ui}
+    .price-divider{height:1px;background:rgba(255,255,255,0.07);margin-bottom:28px}
+    .price-features{list-style:none;margin-bottom:36px}
+    .price-features li{font-size:13px;color:rgba(255,255,255,0.55);padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;font-family:system-ui;line-height:1.4}
+    .price-features li::before{content:'→';color:${d.accent};flex-shrink:0;font-size:12px;margin-top:1px}
+    .price-card.featured .price-features li{color:rgba(255,255,255,0.7)}
+    .price-btn{display:block;text-align:center;padding:14px 24px;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;font-family:system-ui;text-decoration:none;transition:all 0.25s;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+    .price-btn:hover{border-color:${d.accent};color:${d.accent}}
+    .price-card.featured .price-btn{background:${d.accent};color:#000;border-color:transparent}
+    .price-card.featured .price-btn:hover{background:${d.accent2};transform:translateY(-1px)}
+
+    /* CTA */
+    .cta-section{padding:120px 6%;text-align:center;background:linear-gradient(180deg,transparent 0%,${d.accent}08 50%,transparent 100%);border-top:1px solid rgba(255,255,255,0.05)}
+    .cta-title{font-size:clamp(36px,5vw,72px);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;font-family:${d.displayFont}}
+    .cta-title span{color:${d.accent};font-style:${d.accentStyle}}
+    .cta-sub{font-size:17px;color:rgba(255,255,255,0.45);max-width:520px;margin:0 auto 52px;line-height:1.7;font-family:system-ui;font-weight:300}
+    .cta-contact{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:60px;padding-top:60px;border-top:1px solid rgba(255,255,255,0.06)}
+    .contact-block{text-align:center}
+    .contact-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:system-ui;margin-bottom:10px}
+    .contact-value{font-size:16px;color:rgba(255,255,255,0.8);font-family:system-ui;font-weight:400}
+    .contact-value a{color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s}
+    .contact-value a:hover{color:${d.accent}}
+
+    /* FOOTER */
+    .footer{padding:32px 6%;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05)}
+    .footer-left{font-size:12px;color:rgba(255,255,255,0.2);font-family:system-ui;line-height:1.8}
+    .footer-synthiq{font-size:12px;color:rgba(255,255,255,0.15);font-family:system-ui}
+    .footer-synthiq span{color:${d.accent}66}
+
+    @media(max-width:900px){
+      .nav-links{display:none}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .pricing-grid{grid-template-columns:1fr}
+      .price-card.featured{border:none;background:${d.accent}10}
+      .cta-contact{gap:28px}
+      .footer{flex-direction:column;gap:12px;text-align:center}
+      .hero-h1{font-size:clamp(42px,11vw,72px)}
+    }
+    @media(max-width:600px){
+      .section{padding:72px 5%}
+      .services-grid{grid-template-columns:1fr}
+      .reviews-grid{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column;align-items:flex-start}
+      .btn-hero,.btn-ghost{padding:14px 28px}
+    }
+  `
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Oswald:wght@400;600;700&display=swap');
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:${t.font};background:#0a0a0a;color:#fff;overflow-x:hidden}
-        ::selection{background:${t.accent};color:#000}
-        ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-thumb{background:${t.accent}55;border-radius:2px}
-        a{text-decoration:none;color:inherit}
-        .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:70px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,0.8) 0%,transparent 100%);backdrop-filter:blur(2px)}
-        .nav-logo{font-size:18px;font-weight:700;letter-spacing:1px;color:#fff}
-        .nav-logo span{color:${t.accent}}
-        .nav-links{display:flex;gap:32px}
-        .nav-links a{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.8);transition:color 0.2s}
-        .nav-links a:hover{color:${t.accent}}
-        .nav-cta{background:${t.accent};color:${t.ctaText};padding:10px 24px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:opacity 0.2s;cursor:pointer;border:none}
-        .nav-cta:hover{opacity:0.9}
-        .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-        .hero-bg{position:absolute;inset:0;background:${t.primary}}
-        .hero-photos{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);opacity:0.35}
-        .hero-photos div{background-size:cover;background-position:center;filter:saturate(0.8)}
-        .hero-overlay{position:absolute;inset:0;background:${t.bgOverlay}}
-        .hero-content{position:relative;z-index:2;text-align:center;padding:80px 5% 60px;max-width:900px}
-        .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:24px;font-family:${t.tagFont}}
-        .hero-eyebrow::before,.hero-eyebrow::after{content:'';width:30px;height:1px;background:${t.accent};opacity:0.6}
-        .hero-name{font-size:clamp(42px,8vw,88px);font-weight:900;line-height:0.95;letter-spacing:-1px;color:#fff;margin-bottom:12px;font-family:${t.tagFont};text-shadow:0 4px 30px rgba(0,0,0,0.5)}
-        .hero-tagline{font-size:clamp(16px,2.5vw,22px);color:rgba(255,255,255,0.75);font-style:italic;margin-bottom:32px;font-family:${t.tagFont}}
-        .hero-rating{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:10px 24px;margin-bottom:40px}
-        .hero-stars{color:${t.accent};font-size:18px;letter-spacing:2px}
-        .hero-rating-text{font-size:13px;color:rgba(255,255,255,0.85)}
-        .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-        .btn-primary{background:${t.accent};color:${t.ctaText};padding:16px 40px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s;cursor:pointer;border:none;display:inline-block}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px ${t.accent}55}
-        .btn-secondary{background:transparent;color:#fff;padding:16px 40px;border-radius:4px;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.4);transition:all 0.2s;display:inline-block}
-        .btn-secondary:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.8)}
-        .scroll-indicator{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.5}
-        .scroll-indicator span{font-size:10px;letter-spacing:3px;text-transform:uppercase}
-        .scroll-indicator::after{content:'';width:1px;height:40px;background:rgba(255,255,255,0.4)}
-        .photos-section{padding:0;overflow:hidden}
-        .photos-strip{display:flex;gap:3px;height:280px}
-        .photos-strip div{flex:1;background-size:cover;background-position:center;transition:flex 0.4s ease;cursor:pointer}
-        .photos-strip div:hover{flex:2}
-        .section{padding:100px 5%;max-width:1200px;margin:0 auto}
-        .section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:16px;display:flex;align-items:center;gap:12px;font-family:${t.tagFont}}
-        .section-label::before{content:'';width:40px;height:1px;background:${t.accent}}
-        .section-title{font-size:clamp(28px,4vw,48px);font-weight:800;color:#fff;margin-bottom:16px;line-height:1.1;font-family:${t.tagFont}}
-        .section-sub{font-size:16px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:600px}
-        .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:48px}
-        .service-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:28px 24px;transition:all 0.3s;cursor:default}
-        .service-card:hover{background:rgba(255,255,255,0.07);border-color:${t.accent}44;transform:translateY(-4px)}
-        .service-card-icon{font-size:28px;margin-bottom:14px}
-        .service-card-name{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px}
-        .service-card-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5}
-        .reviews-section{background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)}
-        .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:48px}
-        .review-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:28px;position:relative;overflow:hidden}
-        .review-card::before{content:'"';position:absolute;top:-10px;left:20px;font-size:120px;color:${t.accent};opacity:0.08;font-family:Georgia,serif;line-height:1}
-        .review-stars{color:${t.accent};font-size:14px;letter-spacing:2px;margin-bottom:16px}
-        .review-text{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.75;font-style:italic;margin-bottom:20px}
-        .review-author{font-size:12px;color:${t.accent};font-weight:600;letter-spacing:1px;text-transform:uppercase}
-        .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.06);border-top:1px solid rgba(255,255,255,0.06)}
-        .stat-item{padding:40px 24px;text-align:center;background:#0a0a0a}
-        .stat-num{font-size:clamp(32px,4vw,48px);font-weight:900;color:${t.accent};line-height:1;font-family:${t.tagFont}}
-        .stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:8px}
-        .cta-section{background:linear-gradient(135deg,${t.primary} 0%,${t.accent}22 100%);border-top:1px solid ${t.accent}22;padding:100px 5%;text-align:center}
-        .cta-title{font-size:clamp(32px,5vw,60px);font-weight:900;color:#fff;margin-bottom:16px;font-family:${t.tagFont}}
-        .cta-title span{color:${t.accent}}
-        .cta-sub{font-size:18px;color:rgba(255,255,255,0.6);margin-bottom:48px;max-width:540px;margin-left:auto;margin-right:auto}
-        .cta-contact{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
-        .contact-item{display:flex;align-items:center;gap:10px;font-size:15px;color:rgba(255,255,255,0.7)}
-        .contact-icon{width:40px;height:40px;border-radius:50%;background:${t.accent}22;border:1px solid ${t.accent}44;display:flex;align-items:center;justify-content:center;font-size:16px}
-        .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto 60px;text-align:left}
-        .pricing-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:32px 28px}
-        .pricing-card.featured{background:${t.accent}15;border-color:${t.accent}55;position:relative}
-        .pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:${t.accent};color:${t.ctaText};font-size:10px;font-weight:700;letter-spacing:2px;padding:4px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
-        .pricing-name{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px}
-        .pricing-price{font-size:40px;font-weight:900;color:#fff;line-height:1;margin-bottom:4px;font-family:${t.tagFont}}
-        .pricing-price span{font-size:16px;font-weight:400;color:rgba(255,255,255,0.4)}
-        .pricing-deposit{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:24px}
-        .pricing-features{list-style:none;margin-bottom:28px}
-        .pricing-features li{font-size:13px;color:rgba(255,255,255,0.6);padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;gap:10px;align-items:flex-start}
-        .pricing-features li::before{content:'✓';color:${t.accent};flex-shrink:0;font-weight:700}
-        .pricing-btn{display:block;text-align:center;padding:12px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid ${t.accent}66;color:${t.accent};transition:all 0.2s}
-        .pricing-card.featured .pricing-btn{background:${t.accent};color:${t.ctaText};border-color:transparent}
-        .pricing-btn:hover{background:${t.accent};color:${t.ctaText};border-color:transparent}
-        .footer{background:#050505;border-top:1px solid rgba(255,255,255,0.05);padding:32px 5%;display:flex;align-items:center;justify-content:space-between}
-        .footer-left{font-size:12px;color:rgba(255,255,255,0.25);line-height:1.8}
-        .footer-logo{font-size:14px;font-weight:700;color:rgba(255,255,255,0.2)}
-        .footer-logo span{color:${t.accent}66}
-        @media(max-width:768px){
-          .nav-links{display:none}
-          .hero-name{font-size:clamp(36px,12vw,60px)}
-          .stats-bar{grid-template-columns:repeat(2,1fr)}
-          .pricing-grid{grid-template-columns:1fr}
-          .photos-strip{height:200px}
-          .footer{flex-direction:column;gap:12px;text-align:center}
-        }
-      `}} />
+      <style dangerouslySetInnerHTML={{ __html: css }} />
 
-      {/* Nav */}
-      <nav className="nav">
-        <div className="nav-logo">{lead.business_name.split(' ')[0]}<span>.</span></div>
+      {/* ── NAV ── */}
+      <nav className="nav" id="top-nav">
+        <div className="nav-brand">
+          <div className="nav-monogram">{lead.business_name[0]}</div>
+          <span className="nav-name">{lead.business_name}</span>
+        </div>
         <div className="nav-links">
-          {['About','Services','Gallery','Reviews','Contact'].map(l => (
+          {['Services','Reviews','Pricing','Contact'].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`}>{l}</a>
           ))}
         </div>
-        <a href={`tel:${lead.phone}`} className="nav-cta">{t.ctaLabel}</a>
+        <a href={`tel:${lead.phone}`} className="nav-btn">{d.cta}</a>
       </nav>
 
-      {/* Hero */}
-      <section className="hero" id="about">
-        <div className="hero-bg" />
-        {photos.length > 0 && (
-          <div className="hero-photos">
-            {photos.slice(0,3).map((url,i) => (
-              <div key={i} style={{ backgroundImage: `url(${url})` }} />
-            ))}
-          </div>
-        )}
+      {/* ── HERO ── */}
+      <section className="hero">
+        <div className="hero-img" id="hero-img" />
         <div className="hero-overlay" />
         <div className="hero-content">
-          <div className="hero-eyebrow">{lead.category} &nbsp;·&nbsp; {lead.city}, Georgia</div>
-          <h1 className="hero-name">{lead.business_name}</h1>
-          <p className="hero-tagline">{lead.tagline || t.subtext}</p>
+          <div className="hero-eyebrow">
+            <div className="hero-line" />
+            <span className="hero-badge">{d.badge}</span>
+          </div>
+          <h1 className="hero-h1">
+            {heroLines.map((line, i) => (
+              <span key={i} style={{ display:'block' }}>
+                {i === 1 ? <span className="italic">{line}</span> : line}
+              </span>
+            ))}
+          </h1>
+          <p className="hero-sub">{d.sub}</p>
+          <div className="hero-actions">
+            <a href={`tel:${lead.phone}`} className="btn-hero">{d.cta}</a>
+            <a href="#reviews" className="btn-ghost">Read Reviews</a>
+          </div>
           {reviewCount > 0 && (
-            <div style={{ display:'flex', justifyContent:'center', marginBottom:40 }}>
-              <div className="hero-rating">
-                <span className="hero-stars">{'★'.repeat(stars)}</span>
-                <span className="hero-rating-text"><strong>{rating}</strong> · {reviewCount.toLocaleString()} Google Reviews</span>
-              </div>
+            <div className="hero-rating">
+              <span className="hero-stars">{'★'.repeat(Math.round(rating))}</span>
+              <span className="hero-rating-info">
+                <strong>{rating}</strong> · {reviewCount.toLocaleString()} Google Reviews
+              </span>
             </div>
           )}
-          <div className="hero-btns">
-            <a href={`tel:${lead.phone}`} className="btn-primary">{t.ctaLabel}</a>
-            <a href="#reviews" className="btn-secondary">See Reviews</a>
-          </div>
         </div>
-        <div className="scroll-indicator"><span>Scroll</span></div>
+        <div className="hero-scroll">
+          <div className="hero-scroll-line" />
+          <span>Scroll</span>
+        </div>
       </section>
 
-      {/* Photo strip */}
-      {photos.length > 1 && (
-        <div className="photos-section" id="gallery">
-          <div className="photos-strip">
-            {photos.slice(0, Math.min(photos.length, 6)).map((url, i) => (
-              <div key={i} style={{ backgroundImage: `url(${url})` }} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Stats */}
-      <div className="stats-bar">
+      {/* ── STATS ── */}
+      <div className="stats">
         {[
-          { num: `${rating}★`, label: 'Google Rating' },
-          { num: reviewCount > 0 ? reviewCount.toLocaleString() : '—', label: 'Reviews' },
-          { num: lead.city, label: 'Location' },
-          { num: lead.phone || 'Call us', label: 'Phone' },
+          { n: `${rating}★`, l: 'Google Rating' },
+          { n: reviewCount > 0 ? reviewCount.toLocaleString() : '—', l: 'Reviews' },
+          { n: lead.city, l: 'Location' },
+          { n: lead.category, l: 'Specialty' },
         ].map(s => (
-          <div className="stat-item" key={s.label}>
-            <div className="stat-num">{s.num}</div>
-            <div className="stat-label">{s.label}</div>
+          <div className="stat" key={s.l}>
+            <div className="stat-n">{s.n}</div>
+            <div className="stat-l">{s.l}</div>
           </div>
         ))}
       </div>
 
-      {/* Services */}
+      {/* ── SERVICES ── */}
       {services.length > 0 && (
-        <div style={{ background:'#0a0a0a' }} id="services">
+        <div id="services">
           <div className="section">
-            <div className="section-label">What we offer</div>
+            <div className="section-eyebrow">
+              <div className="section-line" />
+              <span className="section-tag">What we offer</span>
+            </div>
             <h2 className="section-title">Our Services</h2>
-            <p className="section-sub">Everything you need, done right.</p>
+            <p className="section-sub">Everything you need, delivered with expertise.</p>
             <div className="services-grid">
               {services.map((svc, i) => {
                 const name = typeof svc === 'string' ? svc : svc.name || ''
                 return (
-                  <div className="service-card" key={i}>
-                    <div className="service-card-name">{name}</div>
+                  <div className="service-item" key={i}>
+                    <div className="service-num">0{i+1}</div>
+                    <div className="service-name">{name}</div>
                   </div>
                 )
               })}
@@ -365,23 +440,33 @@ export default async function DemoSite({ params }) {
         </div>
       )}
 
-      {/* Reviews */}
+      {/* ── REVIEWS ── */}
       {reviews.length > 0 && (
-        <div className="reviews-section" id="reviews">
+        <div className="reviews-bg" id="reviews">
           <div className="section">
-            <div className="section-label">What people say</div>
-            <h2 className="section-title">Real Reviews</h2>
-            <p className="section-sub">From real customers on Google.</p>
+            <div className="section-eyebrow">
+              <div className="section-line" />
+              <span className="section-tag">Real customers</span>
+            </div>
+            <h2 className="section-title">What people say</h2>
+            <p className="section-sub">Verified reviews from real customers on Google.</p>
             <div className="reviews-grid">
               {reviews.slice(0,6).map((rev, i) => {
                 const text = typeof rev === 'string' ? rev : rev.text || rev.review_text || ''
-                const author = typeof rev === 'string' ? 'Google Review' : rev.author_name || rev.author || 'Google Review'
+                const author = typeof rev === 'string' ? `Customer` : rev.author_name || rev.author || 'Customer'
                 if (!text) return null
                 return (
                   <div className="review-card" key={i}>
-                    <div className="review-stars">{'★'.repeat(5)}</div>
-                    <p className="review-text">"{text}"</p>
-                    <div className="review-author">— {author}</div>
+                    <div className="review-stars">★★★★★</div>
+                    <div className="review-quote">"</div>
+                    <p className="review-text">{text}</p>
+                    <div className="review-footer">
+                      <div className="review-avatar">{author[0]}</div>
+                      <div>
+                        <div className="review-author">{author}</div>
+                        <div className="review-source">Google Review</div>
+                      </div>
+                    </div>
                   </div>
                 )
               })}
@@ -390,50 +475,113 @@ export default async function DemoSite({ params }) {
         </div>
       )}
 
-      {/* CTA + Pricing */}
+      {/* ── PRICING ── */}
+      <div id="pricing">
+        <div className="section">
+          <div className="section-eyebrow">
+            <div className="section-line" />
+            <span className="section-tag">Simple pricing</span>
+          </div>
+          <h2 className="section-title">No surprises.<br />No long-term contracts.</h2>
+          <p className="section-sub">This demo was built free. If you love it, choose a plan — live in 7 days.</p>
+          <div className="pricing-grid">
+            {[
+              {
+                tier:'Starter', price:'$47', per:'/mo',
+                features:['Site on synthiq subdomain','Mobile-first design','Click-to-call button','Google reviews displayed','Basic SEO setup'],
+              },
+              {
+                tier:'Standard', price:'$97', per:'/mo', featured:true,
+                features:['Your own custom domain','Everything in Starter','Monthly content updates','Google Analytics setup','Priority support & edits'],
+              },
+              {
+                tier:'Pro', price:'$197', per:'/mo',
+                features:['Everything in Standard','Online booking integration','Automated review requests','Local SEO optimization','Social media feed embedded'],
+              },
+            ].map(p => (
+              <div className={`price-card${p.featured?' featured':''}`} key={p.tier}>
+                {p.featured && <div className="price-badge">Most Popular</div>}
+                <div className="price-tier">{p.tier}</div>
+                <div>
+                  <span className="price-amount">{p.price}</span>
+                  <span className="price-per">{p.per}</span>
+                </div>
+                <div className="price-deposit">$200 deposit · cancel anytime</div>
+                <div className="price-divider" />
+                <ul className="price-features">
+                  {p.features.map((f,i) => <li key={i}>{f}</li>)}
+                </ul>
+                <a href="mailto:ly@synthiqdesigns.com" className="price-btn">Get Started</a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── CTA ── */}
       <section className="cta-section" id="contact">
-        <div className="section-label" style={{ justifyContent:'center' }}>Get started today</div>
-        <h2 className="cta-title">Ready to go live?<br /><span>Let's make it happen.</span></h2>
-        <p className="cta-sub">This demo was built free by Synthiq. If you love it, we'll make it officially yours — custom domain, live within 7 days.</p>
-
+        <div className="section-eyebrow" style={{justifyContent:'center'}}>
+          <div className="section-line" />
+          <span className="section-tag">Ready to go live?</span>
+          <div className="section-line" />
+        </div>
+        <h2 className="cta-title">
+          Let's make it<br /><span>officially yours.</span>
+        </h2>
+        <p className="cta-sub">
+          This demo was built free by Synthiq. Reply to the email you received and we'll have your real site live within 7 days. Everything is negotiable.
+        </p>
+        <div className="hero-actions" style={{justifyContent:'center'}}>
+          <a href="mailto:ly@synthiqdesigns.com?subject=I want to go live — ${lead.business_name}" className="btn-hero">
+            Email Ly Now
+          </a>
+          {lead.phone && (
+            <a href={`tel:${lead.phone}`} className="btn-ghost">{lead.phone}</a>
+          )}
+        </div>
         <div className="cta-contact">
-          {lead.phone && <div className="contact-item"><div className="contact-icon">📞</div><a href={`tel:${lead.phone}`}>{lead.phone}</a></div>}
-          {lead.address && <div className="contact-item"><div className="contact-icon">📍</div><span>{lead.address}</span></div>}
-          <div className="contact-item"><div className="contact-icon">✉️</div><a href="mailto:ly@synthiqdesigns.com">ly@synthiqdesigns.com</a></div>
-        </div>
-
-        <div className="pricing-grid">
-          {[
-            { name:'Starter', price:'$47', per:'/mo', deposit:'$200 deposit', features:['Site on synthiq subdomain','Mobile-responsive design','Click-to-call button','Google reviews displayed','Basic SEO setup'], featured:false },
-            { name:'Standard', price:'$97', per:'/mo', deposit:'$200 deposit · most popular', features:['Your own custom domain','Everything in Starter','Monthly content updates','Google Analytics','Priority support'], featured:true },
-            { name:'Pro', price:'$197', per:'/mo', deposit:'$200 deposit', features:['Everything in Standard','Online booking system','Automated review requests','Local SEO optimization','Social media feed'], featured:false },
-          ].map(plan => (
-            <div className={`pricing-card${plan.featured?' featured':''}`} key={plan.name}>
-              {plan.featured && <div className="pricing-badge">Most Popular</div>}
-              <div className="pricing-name">{plan.name}</div>
-              <div className="pricing-price">{plan.price}<span>{plan.per}</span></div>
-              <div className="pricing-deposit">{plan.deposit}</div>
-              <ul className="pricing-features">
-                {plan.features.map((f,i) => <li key={i}>{f}</li>)}
-              </ul>
-              <a href="mailto:ly@synthiqdesigns.com" className="pricing-btn">Get Started</a>
+          {lead.phone && (
+            <div className="contact-block">
+              <div className="contact-label">Phone</div>
+              <div className="contact-value"><a href={`tel:${lead.phone}`}>{lead.phone}</a></div>
             </div>
-          ))}
-        </div>
-
-        <div className="hero-btns">
-          <a href="mailto:ly@synthiqdesigns.com?subject=I want to go live" className="btn-primary">Email Ly Now</a>
-          {lead.phone && <a href={`tel:${lead.phone}`} className="btn-secondary">{lead.phone}</a>}
+          )}
+          {lead.address && (
+            <div className="contact-block">
+              <div className="contact-label">Address</div>
+              <div className="contact-value">{lead.address}</div>
+            </div>
+          )}
+          <div className="contact-block">
+            <div className="contact-label">Built by</div>
+            <div className="contact-value"><a href="mailto:ly@synthiqdesigns.com">ly@synthiqdesigns.com</a></div>
+          </div>
         </div>
       </section>
 
+      {/* ── FOOTER ── */}
       <footer className="footer">
         <div className="footer-left">
           © 2026 {lead.business_name} · {lead.city}, GA<br />
-          <span style={{ fontSize:11 }}>Demo built free by Synthiq Web Design · <a href="mailto:ly@synthiqdesigns.com" style={{ color:'rgba(255,255,255,0.3)' }}>ly@synthiqdesigns.com</a></span>
+          <span style={{fontSize:11,opacity:0.6}}>Demo website — not yet live. Built free by Synthiq Web Design.</span>
         </div>
-        <div className="footer-logo">synth<span>iq</span></div>
+        <div className="footer-synthiq">synth<span>iq</span></div>
       </footer>
+
+      <script dangerouslySetInnerHTML={{ __html: `
+        // Subtle parallax on hero image
+        const img = document.getElementById('hero-img');
+        window.addEventListener('scroll', () => {
+          const y = window.scrollY;
+          if(img) img.style.transform = 'scale(1.05) translateY(' + (y * 0.15) + 'px)';
+        }, {passive:true});
+        // Nav scroll effect
+        const nav = document.getElementById('top-nav');
+        window.addEventListener('scroll', () => {
+          if(window.scrollY > 60) nav.classList.add('scrolled');
+          else nav.classList.remove('scrolled');
+        }, {passive:true});
+      `}} />
     </>
   )
 }
