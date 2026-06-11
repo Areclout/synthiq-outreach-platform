@@ -12,9 +12,15 @@ const { createClient } = require('@supabase/supabase-js')
 const fs = require('fs')
 const path = require('path')
 
-const SUPABASE_URL = 'https://dhvsuqjgnhuhmjxxndrc.supabase.co'
-const SERVICE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRodnN1cWpnbmh1aG1qeHhuZHJjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzY1OTc3MCwiZXhwIjoyMDkzMjM1NzcwfQ.-YXa1H1qvhVOEQ9naJNLnBqICVI-95yvmpDMvIisw-g'
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY
 const BASE_SITE    = 'https://synthiqdesigns.com/'
+
+if (!SUPABASE_URL || !SERVICE_KEY) {
+  console.error('❌ Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in environment')
+  console.error('   Run with: node --env-file=.env.local scripts/seed.js')
+  process.exit(1)
+}
 
 const db = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false }
